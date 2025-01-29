@@ -23,23 +23,29 @@ Reservoir::~Reservoir() {
 }
 
 void Reservoir::allocateMemoryForName(const char* newName) {
-    name = new char[strlen(newName) + 1];
-    size_t i = 0;
-    while (newName[i] != '\0') {
-        name[i] = newName[i];
-        ++i;
+    size_t length = 0;
+    while (newName[length] != '\0') {
+        ++length;
     }
-    name[i] = '\0';
+
+    name = new char[length + 1];
+    for (size_t i = 0; i < length; ++i) {
+        name[i] = newName[i];
+    }
+    name[length] = '\0';
 }
 
 void Reservoir::allocateMemoryForType(const char* newType) {
-    type = new char[strlen(newType) + 1];
-    size_t i = 0;
-    while (newType[i] != '\0') {
-        type[i] = newType[i];
-        ++i;
+    size_t length = 0;
+    while (newType[length] != '\0') {
+        ++length;
     }
-    type[i] = '\0';
+
+    type = new char[length + 1];
+    for (size_t i = 0; i < length; ++i) {
+        type[i] = newType[i];
+    }
+    type[length] = '\0';
 }
 
 void Reservoir::setName(const char* newName) {
@@ -87,7 +93,14 @@ double Reservoir::calculateSurfaceArea() const {
 }
 
 bool Reservoir::isSameType(const Reservoir& other) const {
-    return strcmp(type, other.type) == 0;
+    size_t i = 0;
+    while (type[i] != '\0' && other.type[i] != '\0') {
+        if (type[i] != other.type[i]) {
+            return false;
+        }
+        ++i;
+    }
+    return type[i] == '\0' && other.type[i] == '\0';
 }
 
 bool Reservoir::hasLargerSurfaceAreaThan(const Reservoir& other) const {
