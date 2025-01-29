@@ -7,8 +7,7 @@ public:
         char mobilePhone[15];
         char additionalInfo[100];
 
-        Contact(const char* fullName, const char* homePhone, const char* workPhone,
-            const char* mobilePhone, const char* additionalInfo);
+        Contact(const char* fullName, const char* homePhone, const char* workPhone,const char* mobilePhone, const char* additionalInfo);
         ~Contact();
     };
 

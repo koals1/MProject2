@@ -13,8 +13,7 @@ PhoneBook::~PhoneBook() {
     delete[] contacts;
 }
 
-PhoneBook::Contact::Contact(const char* fullName, const char* homePhone, const char* workPhone,
-    const char* mobilePhone, const char* additionalInfo) {
+PhoneBook::Contact::Contact(const char* fullName, const char* homePhone, const char* workPhone, const char* mobilePhone, const char* additionalInfo) {
     int length = strlen(fullName);  
     this->fullName = new char[length + 1];
     for (int i = 0; i < length; ++i) {
@@ -59,8 +58,7 @@ int PhoneBook::getStringLength(const char* str) {
     return length;
 }
 
-void PhoneBook::addContact(const char* fullName, const char* homePhone, const char* workPhone,
-    const char* mobilePhone, const char* additionalInfo) {
+void PhoneBook::addContact(const char* fullName, const char* homePhone, const char* workPhone, const char* mobilePhone, const char* additionalInfo) {
     Contact** tempContacts = new Contact * [contactCount + 1];
     for (int i = 0; i < contactCount; ++i) {
         tempContacts[i] = contacts[i];
