@@ -1,7 +1,7 @@
 #include "Collage.h"
 #include <iostream>
 
-Collage::Collage(const char* name, const char* contacts) {
+Collage::Collage(const char* name, const char* contacts, const Contact& contact) {
     int i = 0;
     while (name[i] != '\0') {
         this->name[i] = name[i];
@@ -15,9 +15,14 @@ Collage::Collage(const char* name, const char* contacts) {
         i++;
     }
     this->contacts[i] = '\0';
+
+    this->contact = contact;  
 }
 
 void Collage::show() const {
-    std::cout << "Collage Name: " << name << std::endl;
-    std::cout << "Contacts: " << contacts << std::endl;
+    std::cout << "Collage Name: " << name << "\n";
+    std::cout << "Contacts: " << contacts << "\n";
+    std::cout << "Contact Information:\n";
+    contact.Show();
+
 }

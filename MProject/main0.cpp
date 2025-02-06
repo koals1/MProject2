@@ -1,8 +1,17 @@
 #include <iostream>
+#include "Student.h"
 #include "Collage.h"
+#include "Contact.h"
 
 int main() {
-    Collage collage("Kyiv National University", "Phone: 123-456-789");
-    collage.show();
+ 
+    Contact contact("123-456-7890", "Kyiv", "Ukraine");
+
+    Collage collage("Kyiv National University", "Phone: 123-456-7890", contact);
+
+    Student student("John Doe", "01/01/2000", contact, collage);
+
+    student.show();
+
     return 0;
 }
