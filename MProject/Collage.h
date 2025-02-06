@@ -9,5 +9,6 @@ private:
 
 public:
     Collage(const char* name, const char* contacts, const Contact& contact);
+    ~Collage();
     void show() const;
 };

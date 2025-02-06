@@ -11,5 +11,6 @@ private:
 
 public:
     Student(const char* fullName, const char* birthDate, const Contact& contact, const Collage& collage);
+    ~Student();
     void show() const;
 };

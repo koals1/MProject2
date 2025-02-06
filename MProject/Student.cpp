@@ -18,6 +18,10 @@ Student::Student(const char* fullName, const char* birthDate, const Contact& con
     this->birthDate[i] = '\0';
 }
 
+Student::~Student() {
+    delete[] fullName;
+    delete[] birthDate;
+}
 void Student::show() const {
     std::cout << "Full Name: " << fullName << "\n";
     std::cout << "Birth Date: " << birthDate << "\n";

@@ -18,7 +18,11 @@ Collage::Collage(const char* name, const char* contacts, const Contact& contact)
 
     this->contact = contact;  
 }
+Collage::~Collage() {
 
+    delete[] name;
+    delete[] contacts;
+}
 void Collage::show() const {
     std::cout << "Collage Name: " << name << "\n";
     std::cout << "Contacts: " << contacts << "\n";
@@ -26,3 +30,4 @@ void Collage::show() const {
     contact.Show();
 
 }
+
