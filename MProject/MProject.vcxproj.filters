@@ -33,6 +33,9 @@
     <ClInclude Include="Student.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="String.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Drib.cpp">
@@ -70,6 +73,12 @@
     </ClCompile>
     <ClCompile Include="Student.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="String.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="main20.cpp">
+      <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
