@@ -1,4 +1,5 @@
 #include "Array.h"
+#include "Array.h"
 
 int main() {
     Array arr1(10);
@@ -18,6 +19,23 @@ int main() {
 
     arr3.changeSize(8);
     arr3.display();
+
+    Array arr4 = arr1 + arr2;
+    arr4.display();
+
+    arr1 += arr2;
+    arr1.display();
+
+    std::cout << "arr1[2]: " << arr1[2] << std::endl;
+
+    std::cout << "arr1 == arr2: " << (arr1 == arr2) << std::endl;
+    std::cout << "arr1 != arr2: " << (arr1 != arr2) << std::endl;
+
+    std::cout << "arr1 > arr2: " << (arr1 > arr2) << std::endl;
+    std::cout << "arr1 < arr2: " << (arr1 < arr2) << std::endl;
+
+    Array arr5 = arr1 * arr2;
+    arr5.display();
 
     return 0;
 }
