@@ -1,34 +1,35 @@
 #pragma once
 #include <iostream>
 
+template <typename T>
 class Array {
 private:
-    int* arr;
+    T* arr;
     size_t size;
 
 public:
     Array();
     Array(size_t n);
-    Array(size_t n, int min, int max);
-    Array(const Array& other);
+    Array(size_t n, T min, T max);
+    Array(const Array<T>& other);
     ~Array();
 
     void fillRandom();
-    void fillWithRange(int min, int max);
+    void fillWithRange(T min, T max);
     void display() const;
     void changeSize(size_t newSize);
     void sortArray();
-    int getMin() const;
-    int getMax() const;
+    T getMin() const;
+    T getMax() const;
 
-    Array& operator=(const Array& other);
-    Array operator+(const Array& other) const;
-    Array& operator+=(const Array& other);
-    int operator[](size_t index) const;
-    friend std::ostream& operator<<(std::ostream& os, const Array& arr);
-    bool operator==(const Array& other) const;
-    bool operator!=(const Array& other) const;
-    bool operator>(const Array& other) const;
-    bool operator<(const Array& other) const;
-    Array operator*(const Array& other) const;
+    void Append(T value);
+    void Remove(size_t index); 
+    Array<T> operator+(const Array<T>& other) const;
+    Array<T>& operator+=(const Array<T>& other);
+    T& operator[](size_t index);
+    bool operator==(const Array<T>& other) const;
+    bool operator!=(const Array<T>& other) const;
+    bool operator>(const Array<T>& other) const;
+    bool operator<(const Array<T>& other) const;
+    Array<T> operator*(const Array<T>& other) const;
 };

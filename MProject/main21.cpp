@@ -1,14 +1,14 @@
 #include "Array.h"
-#include "Array.h"
+#include <iostream>
 
 int main() {
-    Array arr1(10);
+    Array<int> arr1(10);
     arr1.display();
 
-    Array arr2(5, 1, 100);
+    Array<int> arr2(5, 1, 100);
     arr2.display();
 
-    Array arr3 = arr2;
+    Array<int> arr3 = arr2;
     arr3.display();
 
     arr3.sortArray();
@@ -20,7 +20,7 @@ int main() {
     arr3.changeSize(8);
     arr3.display();
 
-    Array arr4 = arr1 + arr2;
+    Array<int> arr4 = arr1 + arr2;
     arr4.display();
 
     arr1 += arr2;
@@ -34,8 +34,10 @@ int main() {
     std::cout << "arr1 > arr2: " << (arr1 > arr2) << std::endl;
     std::cout << "arr1 < arr2: " << (arr1 < arr2) << std::endl;
 
-    Array arr5 = arr1 * arr2;
+    Array<int> arr5 = arr1 * arr2;
     arr5.display();
 
+    arr1.Remove(2);  
+    arr1.display();  
     return 0;
 }
