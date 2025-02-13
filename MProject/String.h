@@ -6,6 +6,8 @@ private:
     char* str;
     size_t length;
 
+    void deepCopy(const String& other);
+
 public:
     String();
     String(size_t size);
@@ -15,4 +17,14 @@ public:
 
     void input();
     void output() const;
+
+    String& operator=(const String& other);
+    String operator+(const String& other) const;
+    String& operator+=(const String& other);
+    char operator[](size_t index) const;
+    friend std::ostream& operator<<(std::ostream& os, const String& s);
+    bool operator==(const String& other) const;
+    bool operator!=(const String& other) const;
+    bool operator>(const String& other) const;
+    bool operator<(const String& other) const;
 };
