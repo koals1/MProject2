@@ -2,43 +2,46 @@
 
 void String::deepCopy(const String& other) {
     delete[] str;
-    length = other.length;
-    str = new char[length + 1];
-    for (size_t i = 0; i < length; i++) {
+    size = other.size;
+    capacity = other.capacity;
+    str = new char[capacity + 1];
+    for (size_t i = 0; i < size; i++) {
         str[i] = other.str[i];
     }
-    str[length] = '\0';
+    str[size] = '\0';
 }
 
-String::String() : length(80) {
-    str = new char[length + 1];
+String::String() : size(0), capacity(80) {  // Ємність за замовчуванням
+    str = new char[capacity + 1];
     str[0] = '\0';
 }
 
-String::String(size_t size) : length(size) {
-    str = new char[length + 1];
+String::String(size_t size) : size(size), capacity(size + 1) {
+    str = new char[capacity + 1];
     str[0] = '\0';
 }
 
 String::String(const char* init_str) {
-    length = 0;
-    while (init_str[length] != '\0') {
-        length++;
+    size = 0;
+    while (init_str[size] != '\0') {
+        size++;
     }
-    str = new char[length + 1];
-    for (size_t i = 0; i < length; i++) {
+    capacity = size + 1;  // Ємність = розмір рядка + 1
+    str = new char[capacity + 1];
+    for (size_t i = 0; i < size; i++) {
         str[i] = init_str[i];
     }
-    str[length] = '\0';
+    str[size] = '\0';
 }
 
 String::String(const String& other) {
     deepCopy(other);
 }
 
-String::String(String&& other) noexcept : str(other.str), length(other.length) {
-    other.str = nullptr; 
-    other.length = 0;
+String::String(String&& other) noexcept : str(other.str), size(other.size), capacity(other.capacity) {
+    other.str = nullptr;
+    other.size = 0;
+    other.capacity = 0;
 }
 
 String::~String() {
@@ -48,7 +51,7 @@ String::~String() {
 void String::input() {
     size_t i = 0;
     char ch;
-    while (i < length && std::cin >> ch) {
+    while (i < capacity && std::cin >> ch) {
         str[i++] = ch;
     }
     str[i] = '\0';
@@ -56,6 +59,61 @@ void String::input() {
 
 void String::output() const {
     std::cout << str << std::endl;
+}
+
+size_t String::getSize() const {
+    return size;
+}
+
+size_t String::getCapacity() const {
+    return capacity;
+}
+
+void String::Append(char c) {
+    if (size + 1 >= capacity) {
+        Reserve(capacity * 2);  
+    }
+    str[size++] = c;
+    str[size] = '\0';
+}
+
+void String::Append(const String& str2) {
+    if (size + str2.size >= capacity) {
+        Reserve(size + str2.size);
+    }
+    for (size_t i = 0; i < str2.size; i++) {
+        str[size++] = str2.str[i];
+    }
+    str[size] = '\0';
+}
+
+void String::Clear() {
+    size = 0;
+    str[0] = '\0';
+}
+
+void String::Reserve(size_t newCapacity) {
+    if (newCapacity <= capacity) 
+    return;  
+    capacity = newCapacity;
+    char* newStr = new char[capacity + 1];
+    for (size_t i = 0; i < size; i++) {
+        newStr[i] = str[i];
+    }
+    newStr[size] = '\0';
+    delete[] str;
+    str = newStr;
+}
+
+void String::Shrink() {
+    capacity = size;
+    char* newStr = new char[capacity + 1];
+    for (size_t i = 0; i < size; i++) {
+        newStr[i] = str[i];
+    }
+    newStr[size] = '\0';
+    delete[] str;
+    str = newStr;
 }
 
 String& String::operator=(const String& other) {
@@ -67,42 +125,31 @@ String& String::operator=(const String& other) {
 
 String& String::operator=(String&& other) noexcept {
     if (this != &other) {
-        delete[] str; 
-        str = other.str; 
-        length = other.length;
-
-        other.str = nullptr; 
-        other.length = 0;
+        delete[] str;
+        str = other.str;
+        size = other.size;
+        capacity = other.capacity;
+        other.str = nullptr;
+        other.size = 0;
+        other.capacity = 0;
     }
     return *this;
 }
 
 String String::operator+(const String& other) const {
-    size_t newLength = length + other.length;
-    String result(newLength);
-    for (size_t i = 0; i < length; i++) {
+    String result(size + other.size);
+    for (size_t i = 0; i < size; i++) {
         result.str[i] = str[i];
     }
-    for (size_t i = 0; i < other.length; i++) {
-        result.str[length + i] = other.str[i];
+    for (size_t i = 0; i < other.size; i++) {
+        result.str[size + i] = other.str[i];
     }
-    result.str[newLength] = '\0';
+    result.str[size + other.size] = '\0';
     return result;
 }
 
 String& String::operator+=(const String& other) {
-    size_t newLength = length + other.length;
-    char* newStr = new char[newLength + 1];
-    for (size_t i = 0; i < length; i++) {
-        newStr[i] = str[i];
-    }
-    for (size_t i = 0; i < other.length; i++) {
-        newStr[length + i] = other.str[i];
-    }
-    newStr[newLength] = '\0';
-    delete[] str;
-    str = newStr;
-    length = newLength;
+    Append(other);
     return *this;
 }
 
@@ -116,13 +163,9 @@ std::ostream& operator<<(std::ostream& os, const String& s) {
 }
 
 bool String::operator==(const String& other) const {
-    if (length != other.length) {
-        return false;
-    }
-    for (size_t i = 0; i < length; i++) {
-        if (str[i] != other.str[i]) {
-            return false;
-        }
+    if (size != other.size) return false;
+    for (size_t i = 0; i < size; i++) {
+        if (str[i] != other.str[i]) return false;
     }
     return true;
 }
@@ -132,9 +175,9 @@ bool String::operator!=(const String& other) const {
 }
 
 bool String::operator>(const String& other) const {
-    return length > other.length;
+    return size > other.size;
 }
 
 bool String::operator<(const String& other) const {
-    return length < other.length;
+    return size < other.size;
 }
