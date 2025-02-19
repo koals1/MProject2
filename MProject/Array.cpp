@@ -1,6 +1,24 @@
 #include "Array.h"
 
 template <typename T>
+void Array<T>::deepCopy(const Array<T>& other) {
+    delete[] arr;
+    size = other.size;
+    arr = new T[size];
+    for (size_t i = 0; i < size; i++) {
+        arr[i] = other.arr[i];
+    }
+}
+
+template <typename T>
+void Array<T>::move(Array<T>&& other) {
+    arr = other.arr;
+    size = other.size;
+    other.arr = nullptr;
+    other.size = 0;
+}
+
+template <typename T>
 Array<T>::Array() : size(0), arr(nullptr) {}
 
 template <typename T>
@@ -21,6 +39,11 @@ Array<T>::Array(const Array<T>& other) : size(other.size) {
     for (size_t i = 0; i < size; i++) {
         arr[i] = other.arr[i];
     }
+}
+
+template <typename T>
+Array<T>::Array(Array<T>&& other) noexcept {
+    move(std::move(other));
 }
 
 template <typename T>
@@ -101,23 +124,22 @@ T Array<T>::getMax() const {
 
 template <typename T>
 void Array<T>::Append(T value) {
-    changeSize(size + 1);  
-    arr[size - 1] = value; 
+    changeSize(size + 1);
+    arr[size - 1] = value;
 }
 
 template <typename T>
 void Array<T>::Remove(size_t index) {
     if (index >= size) {
         std::cout << "Index out of bounds!" << std::endl;
-        return; 
+        return;
     }
-
 
     for (size_t i = index; i < size - 1; i++) {
         arr[i] = arr[i + 1];
     }
 
-    changeSize(size - 1);  
+    changeSize(size - 1);
 }
 
 template <typename T>
@@ -147,7 +169,7 @@ T& Array<T>::operator[](size_t index) {
 template <typename T>
 bool Array<T>::operator==(const Array<T>& other) const {
     if (size != other.size) return false;
-    for (size_t i = 0; i < size; i++ {
+    for (size_t i = 0; i < size; i++) {
         if (arr[i] != other.arr[i]) return false;
     }
     return true;
@@ -181,4 +203,21 @@ Array<T> Array<T>::operator*(const Array<T>& other) const {
         }
     }
     return result;
+}
+
+template <typename T>
+Array<T>& Array<T>::operator=(const Array<T>& other) {
+    if (this != &other) {
+        deepCopy(other);
+    }
+    return *this;
+}
+
+template <typename T>
+Array<T>& Array<T>::operator=(Array<T>&& other) noexcept {
+    if (this != &other) {
+        delete[] arr;
+        move(std::move(other));
+    }
+    return *this;
 }
