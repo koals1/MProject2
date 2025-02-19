@@ -6,16 +6,16 @@ class Array {
 private:
     T* arr;
     size_t size;
+    size_t capacity;
 
-    void deepCopy(const Array<T>& other);
-    void move(Array<T>&& other);
+    void resize(size_t newCapacity);
 
 public:
     Array();
     Array(size_t n);
     Array(size_t n, T min, T max);
-    Array(const Array<T>& other); 
-    Array(Array<T>&& other) noexcept; 
+    Array(const Array<T>& other);
+    Array(Array<T>&& other) noexcept;
     ~Array();
 
     void fillRandom();
@@ -36,6 +36,11 @@ public:
     bool operator>(const Array<T>& other) const;
     bool operator<(const Array<T>& other) const;
     Array<T> operator*(const Array<T>& other) const;
-    Array<T>& operator=(const Array<T>& other); 
-    Array<T>& operator=(Array<T>&& other) noexcept; 
+    Array<T>& operator=(const Array<T>& other);
+    Array<T>& operator=(Array<T>&& other) noexcept;
+
+    size_t getSize() const { return size; }
+    size_t getCapacity() const { return capacity; }
+    void reserve(size_t newCapacity);
+    void shrinkToFit();
 };

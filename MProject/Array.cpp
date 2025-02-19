@@ -1,41 +1,37 @@
 #include "Array.h"
 
 template <typename T>
-void Array<T>::deepCopy(const Array<T>& other) {
-    delete[] arr;
-    size = other.size;
-    arr = new T[size];
-    for (size_t i = 0; i < size; i++) {
-        arr[i] = other.arr[i];
+void Array<T>::resize(size_t newCapacity) {
+    T* newArr = new T[newCapacity];
+    size_t minSize = (newCapacity < size) ? newCapacity : size;
+
+    for (size_t i = 0; i < minSize; i++) {
+        newArr[i] = arr[i];
     }
+
+    delete[] arr;
+    arr = newArr;
+    capacity = newCapacity;
 }
 
 template <typename T>
-void Array<T>::move(Array<T>&& other) {
-    arr = other.arr;
-    size = other.size;
-    other.arr = nullptr;
-    other.size = 0;
-}
+Array<T>::Array() : size(0), capacity(10), arr(new T[capacity]) {}
 
 template <typename T>
-Array<T>::Array() : size(0), arr(nullptr) {}
-
-template <typename T>
-Array<T>::Array(size_t n) : size(n) {
-    arr = new T[size];
+Array<T>::Array(size_t n) : size(n), capacity(n) {
+    arr = new T[capacity];
     fillRandom();
 }
 
 template <typename T>
-Array<T>::Array(size_t n, T min, T max) : size(n) {
-    arr = new T[size];
+Array<T>::Array(size_t n, T min, T max) : size(n), capacity(n) {
+    arr = new T[capacity];
     fillWithRange(min, max);
 }
 
 template <typename T>
-Array<T>::Array(const Array<T>& other) : size(other.size) {
-    arr = new T[size];
+Array<T>::Array(const Array<T>& other) : size(other.size), capacity(other.capacity) {
+    arr = new T[capacity];
     for (size_t i = 0; i < size; i++) {
         arr[i] = other.arr[i];
     }
@@ -43,7 +39,12 @@ Array<T>::Array(const Array<T>& other) : size(other.size) {
 
 template <typename T>
 Array<T>::Array(Array<T>&& other) noexcept {
-    move(std::move(other));
+    arr = other.arr;
+    size = other.size;
+    capacity = other.capacity;
+    other.arr = nullptr;
+    other.size = 0;
+    other.capacity = 0;
 }
 
 template <typename T>
@@ -75,15 +76,10 @@ void Array<T>::display() const {
 
 template <typename T>
 void Array<T>::changeSize(size_t newSize) {
-    T* newArr = new T[newSize];
-    size_t minSize = (newSize < size) ? newSize : size;
-
-    for (size_t i = 0; i < minSize; i++) {
-        newArr[i] = arr[i];
+    if (newSize > capacity) {
+        reserve(newSize * 2);  
     }
 
-    delete[] arr;
-    arr = newArr;
     size = newSize;
 }
 
@@ -124,8 +120,10 @@ T Array<T>::getMax() const {
 
 template <typename T>
 void Array<T>::Append(T value) {
-    changeSize(size + 1);
-    arr[size - 1] = value;
+    if (size == capacity) {
+        reserve(capacity * 2);  
+    }
+    arr[size++] = value;
 }
 
 template <typename T>
@@ -139,7 +137,7 @@ void Array<T>::Remove(size_t index) {
         arr[i] = arr[i + 1];
     }
 
-    changeSize(size - 1);
+    --size;
 }
 
 template <typename T>
@@ -208,7 +206,13 @@ Array<T> Array<T>::operator*(const Array<T>& other) const {
 template <typename T>
 Array<T>& Array<T>::operator=(const Array<T>& other) {
     if (this != &other) {
-        deepCopy(other);
+        delete[] arr;
+        size = other.size;
+        capacity = other.capacity;
+        arr = new T[capacity];
+        for (size_t i = 0; i < size; i++) {
+            arr[i] = other.arr[i];
+        }
     }
     return *this;
 }
@@ -217,7 +221,26 @@ template <typename T>
 Array<T>& Array<T>::operator=(Array<T>&& other) noexcept {
     if (this != &other) {
         delete[] arr;
-        move(std::move(other));
+        arr = other.arr;
+        size = other.size;
+        capacity = other.capacity;
+        other.arr = nullptr;
+        other.size = 0;
+        other.capacity = 0;
     }
     return *this;
+}
+
+template <typename T>
+void Array<T>::reserve(size_t newCapacity) {
+    if (newCapacity > capacity) {
+        resize(newCapacity);
+    }
+}
+
+template <typename T>
+void Array<T>::shrinkToFit() {
+    if (size < capacity) {
+        resize(size);
+    }
 }
