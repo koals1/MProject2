@@ -36,6 +36,11 @@ String::String(const String& other) {
     deepCopy(other);
 }
 
+String::String(String&& other) noexcept : str(other.str), length(other.length) {
+    other.str = nullptr; 
+    other.length = 0;
+}
+
 String::~String() {
     delete[] str;
 }
@@ -60,13 +65,25 @@ String& String::operator=(const String& other) {
     return *this;
 }
 
+String& String::operator=(String&& other) noexcept {
+    if (this != &other) {
+        delete[] str; 
+        str = other.str; 
+        length = other.length;
+
+        other.str = nullptr; 
+        other.length = 0;
+    }
+    return *this;
+}
+
 String String::operator+(const String& other) const {
     size_t newLength = length + other.length;
     String result(newLength);
     for (size_t i = 0; i < length; i++) {
         result.str[i] = str[i];
     }
-    for (size_t i = 0; i < other.length; ++i) {
+    for (size_t i = 0; i < other.length; i++) {
         result.str[length + i] = other.str[i];
     }
     result.str[newLength] = '\0';
