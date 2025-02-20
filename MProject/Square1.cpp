@@ -1,11 +1,19 @@
 #include "Square1.h"
+#include <iostream>
 
-Square::Square(double side) : side_length(side) {}
+Square1::Square1(double side) : side(side) {}
 
-double Square::getSideLength() {
-    return side_length;
+double Square1::getArea() const {
+    return side * side;
 }
 
-double Square::getArea() {
-    return side_length * side_length;
+double Square1::getPerimeter() const {
+    return 4 * side;
+}
+
+void Square1::displayInfo() const {
+    std::cout << "Square: " << std::endl;
+    std::cout << "Side: " << side << std::endl;
+    std::cout << "Area: " << getArea() << std::endl;
+    std::cout << "Perimeter: " << getPerimeter() << std::endl;
 }

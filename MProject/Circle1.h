@@ -3,8 +3,10 @@
 class Circle1 {
 public:
     Circle1(double radius);
-    double getRadius();
-    double getArea();
-private:
+    virtual double getArea() const;
+    virtual double getPerimeter() const;
+    virtual void displayInfo() const;
+
+protected:
     double radius;
 };

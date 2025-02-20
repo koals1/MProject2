@@ -1,9 +1,12 @@
 #pragma once
-class Square {
+
+class Square1 {
 public:
-    Square(double side);
-    double getSideLength();
-    double getArea();
-private:
-    double side_length;
+    Square1(double side);
+    virtual double getArea() const;
+    virtual double getPerimeter() const;
+    virtual void displayInfo() const;
+
+protected:
+    double side;
 };
