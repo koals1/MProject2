@@ -3,6 +3,6 @@
 
 int main() {
     Car myCar(18, 250, 4);  
-    myCar.displayCarInfo(); 
+    myCar.displayCarInfo();  
     return 0;
 }

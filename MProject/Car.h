@@ -4,9 +4,8 @@
 #include "Engine.h"
 #include "Door.h"
 
-class Car : public Wheel, public Engine, public Door {
+class Car : public virtual Wheel, public virtual Engine, public virtual Door {  
 public:
     Car(int wheelSize, int horsepower, int doorCount);
-    void displayCarInfo();
+    void displayCarInfo() const;
 };
-

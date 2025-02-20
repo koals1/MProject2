@@ -1,8 +1,9 @@
 #pragma once
+
 class Door {
 public:
     Door(int doorCount);
-    void displayDoorInfo();
+    virtual void displayDoorInfo() const;  
 private:
     int doorCount;
 };

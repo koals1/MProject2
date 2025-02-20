@@ -1,8 +1,9 @@
 #pragma once
+
 class Wheel {
 public:
     Wheel(int size);
-    void displayWheelInfo();
+    virtual void displayWheelInfo() const;  
 private:
     int size;
 };

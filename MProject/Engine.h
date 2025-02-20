@@ -1,9 +1,9 @@
 #pragma once
+
 class Engine {
 public:
     Engine(int horsepower);
-    void displayEngineInfo();
+    virtual void displayEngineInfo() const; 
 private:
     int horsepower;
 };
-
